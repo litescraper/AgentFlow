@@ -126,8 +126,11 @@ class SerperClient:
                         try: conn.close()
                         except: pass
 
-                    conn = http.client.HTTPSConnection("google.serper.dev")
-                    conn.request("POST", "/images", payload, headers)
+                    serper_url = urlparse(os.getenv("SERPER_BASE_URL", "https://google.serper.dev"))
+                    conn = (
+                        http.client.HTTPConnection if serper_url.scheme == "http" else http.client.HTTPSConnection
+                    )(serper_url.netloc)
+                    conn.request("POST", f"{serper_url.path.rstrip('/')}/images", payload, headers)
                     res = conn.getresponse()
 
                     if res.status == 200:
@@ -183,8 +186,11 @@ class SerperClient:
                         try: conn.close()
                         except: pass
 
-                    conn = http.client.HTTPSConnection("google.serper.dev")
-                    conn.request("POST", "/lens", payload, headers)
+                    serper_url = urlparse(os.getenv("SERPER_BASE_URL", "https://google.serper.dev"))
+                    conn = (
+                        http.client.HTTPConnection if serper_url.scheme == "http" else http.client.HTTPSConnection
+                    )(serper_url.netloc)
+                    conn.request("POST", f"{serper_url.path.rstrip('/')}/lens", payload, headers)
                     res = conn.getresponse()
 
                     if res.status == 200:
@@ -240,8 +246,11 @@ class SerperClient:
                         try: conn.close()
                         except: pass
                     
-                    conn = http.client.HTTPSConnection("google.serper.dev")
-                    conn.request("POST", "/search", payload, headers)
+                    serper_url = urlparse(os.getenv("SERPER_BASE_URL", "https://google.serper.dev"))
+                    conn = (
+                        http.client.HTTPConnection if serper_url.scheme == "http" else http.client.HTTPSConnection
+                    )(serper_url.netloc)
+                    conn.request("POST", f"{serper_url.path.rstrip('/')}/search", payload, headers)
                     res = conn.getresponse()
                     
                     if res.status == 200:
